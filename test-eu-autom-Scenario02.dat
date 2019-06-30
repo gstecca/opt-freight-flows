@@ -1,0 +1,87 @@
+/*********************************************
+ * OPL 12.4 Data
+ * Author: gstecca
+ * Creation Date: 17/aug/2014
+ *********************************************/
+ 
+SheetConnection sheet("test-eu-autom-Scenario02.xlsx"); 
+
+ 
+z1 = 1; //from SheetRead(sheet,"'general'!B2");
+z2 = 1; //from SheetRead(sheet,"'general'!B3");
+z3 = 1; //from SheetRead(sheet,"'general'!B4");
+alfa from SheetRead(sheet,"'general'!B5");
+E from SheetRead(sheet,"'general'!B6"); // Early date
+L from SheetRead(sheet,"'general'!B7"); // Due Date
+M from SheetRead(sheet,"'general'!B8"); //big number
+
+
+N from SheetRead(sheet,"'nodes'!A2:A17");  // set of nodes
+
+
+K from SheetRead(sheet,"'k'!A2:A8");  // set of products and components
+Ksign from SheetRead(sheet,"'k'!A2:A4");  // set of final products
+//ks= 1;
+//origin = 2;
+//destination= 1;
+
+// Origins <n,k> with n in N and k in K. (Alternative) production node for each shipment in K
+// Destinations <n,k> wi th n in N and k in K. Destination nodes for each shipment k
+// for each tuple <h,k> in Bom the destination node for shipment h correspond to 
+// origin node for k. <h,k> in Bom => <n,h> in Destinations and <n,k> in Origins
+// example <1,3> in Bom, <4,1> in Destinations, <4,3> in Origins
+
+Origins from SheetRead(sheet,"'origins'!A2:B18"); // <N,K>
+
+
+// <<h>,<k>> in Bom if product (shipment) h in K is required to produce product (shipment) k in K
+// example: product (shipment) 1 and 2 are needed in order to produce 3
+Bom from SheetRead(sheet,"'bom'!A2:B10"); // <H,K>
+
+// weight of shipment unit in tons (tons/units) of each shipment k wsu[K]
+wsu from SheetRead(sheet,"'k'!B2:B8");
+
+// production cost of node i p[Origins]
+p from SheetRead(sheet,"'origins'!D2:D18");
+
+ // activation cost of node i p[Origins]
+f from SheetRead(sheet,"'origins'!E2:E18");
+
+
+Routes from SheetRead(sheet,"'routes'!A2:C88");
+          
+// transportation times T[Routes] (h)
+T from SheetRead(sheet,"'routes'!D2:D88");
+
+// fixed activation costs for routes FT[Routes]
+FR from SheetRead(sheet,"'routes'!E2:E88");
+
+// arcs
+Arcs from SheetRead(sheet, "'a'!B2:C40");
+	
+// emission factors for each arc (service) e[Arcs]
+e  from SheetRead(sheet,"'a'!D2:D40");
+
+// transportation costs Cost[Arcs]
+Cost from SheetRead(sheet,"'a'!E2:E40");
+
+   //arc capacity Capacity[Arcs] = ...; //arc capacity in tons
+Capacity from SheetRead(sheet,"'a'!F2:F40");
+
+ // destinations
+Destinations from SheetRead(sheet,"'destinations'!A2:B34"); // <N,K>
+
+ // quantity (required) per shipment Q[Destinations]
+Q from SheetRead(sheet,"'destinations'!D2:D34");
+
+// Service times for nodes S[N]
+S from SheetRead(sheet,"'nodes'!C2:C17");
+
+// Production times for shipmens R[K]
+R from SheetRead(sheet,"'k'!C2:C8");
+
+// Time of stock in hours(e.g 1 shift of stock = 8)  lts[K]
+lts from SheetRead(sheet,"'k'!D2:D8"); 
+
+//CapacityP[Origins] = ...; //production nodes capacity
+CapacityP from SheetRead(sheet,"'origins'!F2:F18"); 
